@@ -1,11 +1,12 @@
 
 import { useState, useEffect } from 'react';
 import { Menu, X, Heart } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +30,11 @@ const Navbar = () => {
     };
   }, [isMobileMenuOpen]);
 
+  // Close mobile menu when navigating to a new page
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location]);
+
   const menuItems = [
     { name: 'About', path: '/about' },
     { name: 'Programs', path: '/programs' },
@@ -38,11 +44,15 @@ const Navbar = () => {
     { name: 'Contact', path: '/contact' },
   ];
 
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'py-4 glass shadow-md'
+          ? 'py-4 bg-background/90 backdrop-blur-md shadow-md'
           : 'py-6 bg-transparent'
       }`}
     >
@@ -76,8 +86,12 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`font-medium transition-all duration-200 hover:text-ngo-accent ${
-                  isScrolled ? 'text-foreground' : 'text-white'
+                className={`font-medium transition-all duration-200 ${
+                  isActive(item.path) 
+                    ? 'text-ngo-accent' 
+                    : isScrolled 
+                      ? 'text-foreground hover:text-ngo-accent' 
+                      : 'text-white hover:text-ngo-accent'
                 }`}
               >
                 {item.name}
@@ -93,7 +107,9 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-ngo-accent rounded-md p-2 transform active:scale-95 transition-transform"
+            className={`md:hidden rounded-md p-2 transform active:scale-95 transition-transform ${
+              isScrolled ? 'text-ngo-accent' : 'text-white'
+            }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
@@ -116,8 +132,9 @@ const Navbar = () => {
             <Link
               key={item.name}
               to={item.path}
-              className="text-2xl font-medium hover:text-ngo-accent transition-all duration-200"
-              onClick={() => setIsMobileMenuOpen(false)}
+              className={`text-2xl font-medium transition-all duration-200 ${
+                isActive(item.path) ? 'text-ngo-accent' : 'hover:text-ngo-accent'
+              }`}
             >
               {item.name}
             </Link>
@@ -125,7 +142,6 @@ const Navbar = () => {
           <Link
             to="/donate"
             className="bg-ngo-accent hover:bg-ngo-accent-dark text-white px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 font-medium mt-4 text-xl"
-            onClick={() => setIsMobileMenuOpen(false)}
           >
             Donate Now
           </Link>
