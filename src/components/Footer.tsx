@@ -35,6 +35,21 @@ const Footer = () => {
     }, 3000);
   };
 
+  const quickLinks = [
+    { name: 'About Us', path: '/about' },
+    { name: 'Our Programs', path: '/programs' },
+    { name: 'Get Involved', path: '/volunteer' },
+    { name: 'Donate', path: '/donate' },
+    { name: 'Events', path: '/events' },
+    { name: 'News & Stories', path: '/about' },
+  ];
+
+  const policyLinks = [
+    { name: 'Privacy Policy', path: '/privacy-policy' },
+    { name: 'Terms of Service', path: '/terms-of-service' },
+    { name: 'Cookie Policy', path: '/cookie-policy' },
+  ];
+
   return (
     <footer className="bg-secondary/30 pt-20 pb-10 relative">
       {/* Scroll to top button */}
@@ -82,11 +97,11 @@ const Footer = () => {
           <div>
             <h3 className="font-display font-bold text-lg mb-6">Quick Links</h3>
             <ul className="space-y-3">
-              {['About Us', 'Our Programs', 'Get Involved', 'Donate', 'Events', 'News & Stories'].map((item) => (
-                <li key={item}>
-                  <a href={`/${item.toLowerCase().replace(/\s+/g, '-')}`} className="text-muted-foreground hover:text-ngo-blue transition-colors">
-                    {item}
-                  </a>
+              {quickLinks.map((item) => (
+                <li key={item.name}>
+                  <Link to={item.path} className="text-muted-foreground hover:text-ngo-blue transition-colors">
+                    {item.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -158,15 +173,15 @@ const Footer = () => {
             © {new Date().getFullYear()} HopeForward. All rights reserved.
           </p>
           <div className="flex space-x-6">
-            <a href="/privacy-policy" className="text-sm text-muted-foreground hover:text-ngo-blue transition-colors">
-              Privacy Policy
-            </a>
-            <a href="/terms-of-service" className="text-sm text-muted-foreground hover:text-ngo-blue transition-colors">
-              Terms of Service
-            </a>
-            <a href="/cookie-policy" className="text-sm text-muted-foreground hover:text-ngo-blue transition-colors">
-              Cookie Policy
-            </a>
+            {policyLinks.map((item) => (
+              <Link 
+                key={item.name}
+                to={item.path} 
+                className="text-sm text-muted-foreground hover:text-ngo-blue transition-colors"
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

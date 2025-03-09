@@ -29,6 +29,15 @@ const Navbar = () => {
     };
   }, [isMobileMenuOpen]);
 
+  const menuItems = [
+    { name: 'About', path: '/about' },
+    { name: 'Programs', path: '/programs' },
+    { name: 'Donate', path: '/donate' },
+    { name: 'Volunteer', path: '/volunteer' },
+    { name: 'Events', path: '/events' },
+    { name: 'Contact', path: '/contact' },
+  ];
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -63,15 +72,15 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {['About', 'Programs', 'Donate', 'Volunteer', 'Contact'].map((item) => (
+            {menuItems.map((item) => (
               <Link
-                key={item}
-                to={`/${item.toLowerCase()}`}
+                key={item.name}
+                to={item.path}
                 className={`font-medium transition-all duration-200 hover:text-ngo-accent ${
                   isScrolled ? 'text-foreground' : 'text-white'
                 }`}
               >
-                {item}
+                {item.name}
               </Link>
             ))}
             <Link
@@ -103,14 +112,14 @@ const Navbar = () => {
         }`}
       >
         <div className="flex flex-col items-center justify-center h-full space-y-8 p-4">
-          {['About', 'Programs', 'Donate', 'Volunteer', 'Contact'].map((item) => (
+          {menuItems.map((item) => (
             <Link
-              key={item}
-              to={`/${item.toLowerCase()}`}
+              key={item.name}
+              to={item.path}
               className="text-2xl font-medium hover:text-ngo-accent transition-all duration-200"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              {item}
+              {item.name}
             </Link>
           ))}
           <Link
